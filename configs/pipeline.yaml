@@ -5,3 +5,17 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: well-logs-cohort-3a-dbf
+
+  DynamodbTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: well-logs-cohort-3a-dbf
+      AttributeDefinitions:
+        - AttributeName: Id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: Id
+          KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 25
+        WriteCapacityUnits: 25
