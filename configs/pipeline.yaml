@@ -1,12 +1,19 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Bucket to host well logs and Lambda deployment
+
+Parameters:
+  ResourceName:
+    Description: A name to use for all created resources
+    Default: well-logs-dbf
+    Type: String
+
 Resources:
   Bucket:
     Type: AWS::S3::Bucket
     DependsOn:
       - LambdaPermission
     Properties:
-      BucketName: well-logs-cohort-3a-dbf
+      BucketName: !Ref ResourceName
       NotificationConfiguration:
         LambdaConfigurations:
           - Event: s3:ObjectCreated:*
@@ -20,7 +27,7 @@ Resources:
   DynamodbTable:
     Type: AWS::DynamoDB::Table
     Properties:
-      TableName: well-logs-cohort-3a-dbf
+      TableName: !Ref ResourceName
       AttributeDefinitions:
         - AttributeName: Id
           AttributeType: S
@@ -34,7 +41,7 @@ Resources:
   LambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: well-logs-cohort-3a-dbf
+      FunctionName: !Ref ResourceName
       Handler: lambda_handler
       Role: !GetAtt LambdaRole.Arn
       Runtime: python3.12
@@ -46,7 +53,7 @@ Resources:
   LambdaRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: well-logs-cohort-3a-dbf
+      RoleName: !Ref ResourceName
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -62,7 +69,7 @@ Resources:
   LambdaPermission:
     Type: AWS::Lambda::Permission
     Properties:
-      FunctionName: well-logs-cohort-3a-dbf
+      FunctionName: !Ref ResourceName
       Principal: s3.amazonaws.com
       Action: lambda:InvokeFunction
       SourceArn: !Sub 'arn:aws:s3:::${ResourceName}'
