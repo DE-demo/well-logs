@@ -1,0 +1,24 @@
+SHELL := /bin/bash
+PACKAGE_DIR := package
+
+update-lambda: deployment.zip
+	bin/update-lambda
+
+$(PACKAGE_DIR):
+	mkdir -p $@
+
+deployment.zip: | $(PACKAGE_DIR)
+	PIP_REQUIRE_VIRTUALENV=false pip install \
+	  --platform manylinux2014_x86_64 \
+	  --target=$(PACKAGE_DIR) \
+	  --implementation cp \
+	  --python-version 3.12 \
+	  --only-binary=:all: \
+	  .
+
+	rm -rf $(PACKAGE_DIR)/scipy*
+	(cd $(PACKAGE_DIR) && zip -r ../$@ .)
+	zip $@ lambda_function.py
+
+clean:
+	rm -rf deployment.zip package/
