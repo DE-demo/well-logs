@@ -13,13 +13,13 @@ files = [
 
 [[package]]
 name = "imagehash"
-version = "4.3.2"
+version = "4.3.0"
 description = "Image Hashing library"
 optional = false
 python-versions = "*"
 files = [
-    {file = "ImageHash-4.3.2-py2.py3-none-any.whl", hash = "sha256:02b0f965f8c77cd813f61d7d39031ea27d4780e7ebcad56c6cd6a709acc06e5f"},
-    {file = "ImageHash-4.3.2.tar.gz", hash = "sha256:e54a79805afb82a34acde4746a16540503a9636fd1ffb31d8e099b29bbbf8156"},
+    {file = "ImageHash-4.3.0-py2.py3-none-any.whl", hash = "sha256:afe0bcb17c88e6f28fd69b91f05c4f207b3d5018431c3f3e632af2162e451d03"},
+    {file = "ImageHash-4.3.0.tar.gz", hash = "sha256:3e843fed202105374b71767f93e6791a476dc92d212668dd3a6db61bfb18faf9"},
 ]
 
 [package.dependencies]
@@ -367,4 +367,4 @@ test = ["Cython", "array-api-strict (>=2.0,<2.1.1)", "asv", "gmpy2", "hypothesis
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "bb82798639d0dcb6ffe75e10a3a3c27bf7b189988b2e6dcb13b02016098cc68f"
+content-hash = "dacc5409f43308accd294dd51423dec55b12e5c3dd0704a743da6122b46af0fb"
