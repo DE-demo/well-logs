@@ -68,6 +68,8 @@ Resources:
 
   LambdaPermission:
     Type: AWS::Lambda::Permission
+    DependsOn:
+      - LambdaFunction
     Properties:
       FunctionName: !Ref ResourceName
       Principal: s3.amazonaws.com
