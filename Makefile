@@ -20,5 +20,11 @@ deployment.zip: | $(PACKAGE_DIR)
 	(cd $(PACKAGE_DIR) && zip -r ../$@ .)
 	zip $@ lambda_function.py
 
+poetry.lock: pyproject.toml
+	poetry lock --no-update
+
+requirements-dev.txt: poetry.lock
+	poetry export --format requirements.txt --with=dev > $@
+
 clean:
 	rm -rf deployment.zip package/
