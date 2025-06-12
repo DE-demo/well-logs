@@ -35,11 +35,11 @@ test-lint:
 
 .PHONY: test-unit
 test-unit:
-	poetry run pytest -v -m "not integration"
+	poetry run pytest -v --cov=wells -m "not integration"
 
 .PHONY: test-integration
 test-integration:
-	poetry run pytest -v -m "integration"
+	poetry run pytest -v --cov=wells -m "integration"
 
 clean:
 	rm -rf deployment.zip package/
