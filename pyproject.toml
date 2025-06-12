@@ -13,6 +13,8 @@ boto3 = "1.38.30"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "7.4.0"
+flake9 = "3.8.3.post2"
+pytest-cov = "6.2.1"
 
 [build-system]
 requires = ["poetry-core"]
