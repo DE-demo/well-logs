@@ -23,7 +23,8 @@ def record_to_db(obj, bucket, key):
         )
         print("Added well log data to the database")
     except ClientError as error:
-        if error.response["Error"]["Code"] == "ConditionalCheckFailedException":
+        code = "ConditionalCheckFailedException"
+        if error.response["Error"]["Code"] == code:
             print("TIFF file already exists!")
         else:
             raise error
