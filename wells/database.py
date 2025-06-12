@@ -1,8 +1,11 @@
+import logging
+
 from botocore.exceptions import ClientError
 import boto3
 
 from wells.hash_log import hash_log
 
+logging.basicConfig(level=logging.INFO)
 dynamodb = boto3.resource("dynamodb")
 
 
@@ -21,11 +24,11 @@ def record_to_db(obj, bucket, key):
             Item=item,
             ConditionExpression="attribute_not_exists(Id)"
         )
-        print("Added well log data to the database")
+        logging.info("Added well log data to the database")
     except ClientError as error:
         code = "ConditionalCheckFailedException"
         if error.response["Error"]["Code"] == code:
-            print("TIFF file already exists!")
+            logging.info("TIFF file already exists!")
         else:
             raise error
     except Exception as error:
