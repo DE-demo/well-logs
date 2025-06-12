@@ -26,9 +26,20 @@ poetry.lock: pyproject.toml
 requirements-dev.txt: poetry.lock
 	poetry export --format requirements.txt --with=dev > $@
 
+.PHONY: tests
+tests: test-lint test-unit test-integration
+
 .PHONY: test-lint
 test-lint:
 	poetry run flake8 wells/ tests/
+
+.PHONY: test-unit
+test-unit:
+	poetry run pytest -v -m "not integration"
+
+.PHONY: test-integration
+test-integration:
+	poetry run pytest -v -m "integration"
 
 clean:
 	rm -rf deployment.zip package/
