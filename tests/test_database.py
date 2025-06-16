@@ -1,3 +1,4 @@
+import logging
 import pytest
 from unittest.mock import patch
 
@@ -28,23 +29,25 @@ def test_put_item_call_args(mock_hash_log, mock_table):
 
 @patch('wells.database.dynamodb.Table')
 @patch('wells.database.hash_log')
-def test_put_item_output(mock_hash_log, mock_table, capsys):
+def test_put_item_output(mock_hash_log, mock_table, caplog):
+    caplog.set_level(logging.INFO)
     record_to_db(image1, 'bucket', 'key')
-    captured = capsys.readouterr()
-    assert captured.out == 'Added well log data to the database\n'
+    captured = caplog.records[0].message
+    assert captured == 'Added well log data to the database'
 
 
 @patch('wells.database.dynamodb.Table')
 @patch('wells.database.hash_log')
-def test_put_item_duplicate(mock_hash_log, mock_table, capsys):
+def test_put_item_duplicate(mock_hash_log, mock_table, caplog):
     error = ClientError(
         error_response={"Error": {"Code": "ConditionalCheckFailedException"}},
         operation_name="operation_name"
     )
+    caplog.set_level(logging.INFO)
     mock_table.return_value.put_item.side_effect = error
     record_to_db(image1, 'bucket', 'key')
-    captured = capsys.readouterr()
-    assert captured.out == 'TIFF file already exists!\n'
+    captured = caplog.records[0].message
+    assert captured == 'TIFF file already exists!'
 
 
 @patch('wells.database.dynamodb.Table')
@@ -59,7 +62,8 @@ def test_put_item_other_error(mock_hash_log, mock_table):
 
 @pytest.mark.integration
 @patch('wells.database.dynamodb.Table')
-def test_put_item_integration(mock_table, capsys):
+def test_put_item_integration(mock_table, caplog):
+    caplog.set_level(logging.INFO)
     record_to_db(image1, 'bucket', 'key')
-    captured = capsys.readouterr()
-    assert captured.out == 'Added well log data to the database\n'
+    captured = caplog.records[0].message
+    assert captured == 'Added well log data to the database'
