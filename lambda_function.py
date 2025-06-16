@@ -1,22 +1,21 @@
+import logging
+
 import boto3
-import botocore
 
 from wells.database import record_to_db
 
+logging.basicConfig(level=logging.INFO)
 s3 = boto3.client("s3")
 
 
 def lambda_handler(event, context):
-    print(f'boto3 version: {boto3.__version__}')
-    print(f'botocore version: {botocore.__version__}')
-
     bucket = event["Records"][0]["s3"]["bucket"]["name"]
     key = event["Records"][0]["s3"]["object"]["key"]
 
     try:
         response = s3.get_object(Bucket=bucket, Key=key)
     except Exception as e:
-        print(e)
+        logging.error(e, exc_info=True)
         raise e
     else:
         obj = response["Body"].read()
