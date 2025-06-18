@@ -42,7 +42,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: !Ref ResourceName
-      Handler: lambda_handler
+      Handler: lambda_function.lambda_handler
       Role: !GetAtt LambdaRole.Arn
       Runtime: python3.12
       Code:
